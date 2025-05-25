@@ -1,0 +1,58 @@
+<!-- Save this file as products.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Product Listing</title>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #f0f0f0; }
+    select { margin: 10px; padding: 5px; }
+    ul { list-style: none; padding: 0; }
+    li { background: white; margin: 10px 0; padding: 15px; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>Products</h1>
+
+  <label>Category:
+    <select id="filter" onchange="showProducts()">
+      <option value="all">All</option>
+      <option value="tech">Tech</option>
+      <option value="clothing">Clothing</option>
+    </select>
+  </label>
+
+  <label>Sort:
+    <select id="sort" onchange="showProducts()">
+      <option value="high">High Rating</option>
+      <option value="low">Low Rating</option>
+    </select>
+  </label>
+
+  <ul id="products"></ul>
+
+  <script>
+    const items = [
+      { name: "Phone", category: "tech", rating: 4.5 },
+      { name: "Shirt", category: "clothing", rating: 3.8 },
+      { name: "Laptop", category: "tech", rating: 4.9 },
+      { name: "Jeans", category: "clothing", rating: 4.2 }
+    ];
+
+    function showProducts() {
+      const category = document.getElementById("filter").value;
+      const sort = document.getElementById("sort").value;
+
+      let filtered = items.filter(item => category === "all" || item.category === category);
+      filtered.sort((a, b) => sort === "high" ? b.rating - a.rating : a.rating - b.rating);
+
+      document.getElementById("products").innerHTML = "";
+      filtered.forEach(item => {
+        document.getElementById("products").innerHTML += `
+          <li>${item.name} (${item.category}) - Rating: ${item.rating}</li>`;
+      });
+    }
+
+    showProducts();
+  </script>
+</body>
+</html>

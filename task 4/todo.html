@@ -1,0 +1,49 @@
+<!-- Save this file as todo.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple To-Do List</title>
+  <style>
+    body { font-family: Arial; text-align: center; background-color: #eef; padding: 30px; }
+    input, button { padding: 10px; margin: 10px; }
+    ul { list-style-type: none; padding: 0; }
+    li { margin: 5px; background: white; padding: 10px; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <h1>To-Do List</h1>
+  <input id="task" placeholder="Enter task">
+  <button onclick="addTask()">Add</button>
+  <ul id="list"></ul>
+
+  <script>
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+    function showTasks() {
+      document.getElementById("list").innerHTML = "";
+      tasks.forEach((task, i) => {
+        document.getElementById("list").innerHTML +=
+          `<li>${task} <button onclick="deleteTask(${i})">X</button></li>`;
+      });
+    }
+
+    function addTask() {
+      const task = document.getElementById("task").value;
+      if (task) {
+        tasks.push(task);
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+        document.getElementById("task").value = "";
+        showTasks();
+      }
+    }
+
+    function deleteTask(index) {
+      tasks.splice(index, 1);
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+      showTasks();
+    }
+
+    showTasks();
+  </script>
+</body>
+</html>
